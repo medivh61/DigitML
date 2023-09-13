@@ -35,8 +35,9 @@ const double calculate_accuracy(const Matrix<unsigned char>& images, const Matri
   return accuracy;
 }
 
-int main() {
-    Matrix<unsigned char> images_train(0, 0);
+void tests(int count){
+    for(int i =0; i <= count; i++){
+         Matrix<unsigned char> images_train(0, 0);
     Matrix<unsigned char> labels_train(0, 0);
     load_dataset(images_train, labels_train, "data/train-images-idx3-ubyte", "data/train-labels-idx1-ubyte");
 
@@ -44,28 +45,7 @@ int main() {
     Matrix<unsigned char> labels_test(0, 0);
     load_dataset(images_test, labels_test, "data/t10k-images-idx3-ubyte", "data/t10k-labels-idx1-ubyte");
 
-    NeuralNetwork n;
-
-    // Tests to see that data was read in properly
-    /*for (int i = 0; i < 10; ++i) {
-        Example e;
-        for (int j = 0; j < 28*28; ++j) {
-            e.data[j] = images_train[i][j];
-        }
-        e.label = labels_train[i][0];
-        debug(e);
-        printf("Guess: %d\n", n.compute(e));
-    }
-    for (int i = 0; i < 10; ++i) {
-        Example e;
-        for (int j = 0; j < 28*28; ++j) {
-            e.data[j] = images_test[i][j];
-        }
-        e.label = labels_test[i][0];
-        debug(e);
-        printf("Guess: %d\n", n.compute(e));
-    }*/
-    const unsigned int num_iterations = 5;
+     const unsigned int num_iterations = 5;
     n.train(num_iterations, images_train, labels_train);
 
     const double accuracy_train = calculate_accuracy(images_train, labels_train, n);
@@ -74,5 +54,11 @@ int main() {
     printf("Accuracy on training data: %f\n", accuracy_train);
     printf("Accuracy on test data: %f\n", accuracy_test);
 
+    NeuralNetwork n;
+    };
+}
+
+int main() {
+    tests(5);
     return 0;
 }
