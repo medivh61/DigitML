@@ -188,7 +188,7 @@ std::vector<double> NeuralNetwork::sigmoid(const std::vector<double>& x) {
 }
 
 
-std::vector<double> isrlu(const std::vector<double>& x, double alpha) {
+std::vector<double> NeuralNetwork::isrlu(const std::vector<double>& x, double alpha) {
     std::vector<double> result(x.size());
     for (unsigned int i = 0; i < x.size(); i++)
         result[i] = x[i] >= 0 ? x[i] : x[i] / sqrt(1 + alpha * pow(x[i], 2));
