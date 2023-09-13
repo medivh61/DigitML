@@ -29,8 +29,8 @@ void NeuralNetwork::train(
 
     for (unsigned int i = 0; i < iterations; ++i) {
       // Initialize the gradient matrices to 0
-      Matrix<double> gradient_1(weights1.rows(), weights1.cols(), 0.0);
-      Matrix<double> gradient_2(weights2.rows(), weights2.cols(), 0.0);
+      Matrix<double> gradient_1(weights1.rows(), weights1.cols(), -1.0);
+      Matrix<double> gradient_2(weights2.rows(), weights2.cols(), -1.0);
       double cost = 0.0;
 
 
