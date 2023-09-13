@@ -8,9 +8,8 @@ SRC = src/main.cpp
 
 all: 
 	g++ $(FLAGS) -Ofast $(SRC) -I include -o main
-	./main
+
 
 debug:
 	g++ $(FLAGS) -DDEBUG $(SRC) -o main
-	./main
 
