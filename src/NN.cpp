@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <random>
 
+
+const double beta = 0.2;
 // TODO valarray?
 std::vector<double> operator-(
         const std::vector<double>& lhs,
@@ -141,7 +143,7 @@ void NeuralNetwork::compute_gradients_and_cost(
 inline std::vector<double> NeuralNetwork::feed_forward(
         const std::vector<double>& input,
         const Matrix<double>& weights) {
-    return sigmoid(weights * input);
+    return isrlu(weights * input, beta);
 }
 
 Matrix<double> NeuralNetwork::weight_init(double maxWeight, unsigned int rows, unsigned int cols){
@@ -182,6 +184,14 @@ std::vector<double> NeuralNetwork::sigmoid(const std::vector<double>& x) {
     std::vector<double> result(x.size());
     for (unsigned int i = 0; i < x.size(); i++)
         result[i] = 1 / (1 + exp(-x[i]));
+    return result;
+}
+
+
+std::vector<double> isrlu(const std::vector<double>& x, double alpha) {
+    std::vector<double> result(x.size());
+    for (unsigned int i = 0; i < x.size(); i++)
+        result[i] = x[i] >= 0 ? x[i] : x[i] / sqrt(1 + alpha * pow(x[i], 2));
     return result;
 }
 
