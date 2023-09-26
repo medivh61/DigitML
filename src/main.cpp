@@ -37,7 +37,13 @@ const double calculate_accuracy(const Matrix<unsigned char>& images, const Matri
 
 void tests(int count){
     for(int i =0; i <= count; i++){
-         Matrix<unsigned char> images_train(0, 0);
+
+    };
+}
+
+int main() {
+   // tests(5);
+             Matrix<unsigned char> images_train(0, 0);
     Matrix<unsigned char> labels_train(0, 0);
     load_dataset(images_train, labels_train, "data/train-images-idx3-ubyte", "data/train-labels-idx1-ubyte");
 
@@ -55,10 +61,5 @@ void tests(int count){
     printf("Accuracy on test data: %f\n", accuracy_test);
 
     NeuralNetwork n;
-    };
-}
-
-int main() {
-    tests(5);
     return 0;
 }
