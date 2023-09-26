@@ -25,5 +25,5 @@ jobs:
       run: ./main
     - name: make SOFTSIGN activate function
       run: make SOFTSIGN
-    - name: run softsign activate function
+    - name: run SOFTSIGN activate function
       run: ./main
