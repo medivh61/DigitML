@@ -1,6 +1,7 @@
 
 #include <cstdlib>
 #include <random>
+#include <cassert>
 
 
 const double beta = 0.2;
