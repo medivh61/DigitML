@@ -13,7 +13,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: make
-      run: make
-    - name: run_tests
+    - name: installation
+      run: sudo apt install -y googletest libgtest-dev build-essential gcovr
+    - name: compill unit tests
+      run: make test
+    - name: run unit tests
+      run: ./main
+    - name: make 
+      run: make all
+    - name: run 
       run: ./main
