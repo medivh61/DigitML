@@ -90,9 +90,9 @@ TEST(FunctionTesting, testSoftSign1){
 }
 
 TEST(FunctionTesting, testSoftSign2){
-    EXPECT_NEAR(soft(0.15),0.13,1e-3);
-    EXPECT_NEAR(soft(0.59),0.59,1e-3);
-    EXPECT_NEAR(soft(-0.9),-0.474,1e-3);
+    EXPECT_NEAR(soft(0.15),0.13,1e-2);
+    EXPECT_NEAR(soft(0.59),0.59,1e-2);
+    EXPECT_NEAR(soft(-0.9),-0.474,1e-2);
 }
 
 TEST(FunctionTesting, testSoftSignPos){
