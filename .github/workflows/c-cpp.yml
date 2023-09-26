@@ -23,7 +23,7 @@ jobs:
       run: make
     - name: run standart activate function
       run: ./main
-    - name: make softsign activate function
-      run: make softsign
+    - name: make SOFTSIGN activate function
+      run: make SOFTSIGN
     - name: run softsign activate function
       run: ./main
