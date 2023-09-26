@@ -139,7 +139,7 @@ int main(int argc, char **argv) {
     const double accuracy_test = calculate_accuracy(images_test, labels_test, n);
     
     printf("Accuracy on training data: %f\n", accuracy_train);
-    printf("Accuracy on test data: %f\n", accuracy_test
+    printf("Accuracy on test data: %f\n", accuracy_test);
    
         return 0;
 }
