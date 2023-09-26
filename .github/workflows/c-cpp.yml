@@ -27,3 +27,5 @@ jobs:
       run: make isrlu
     - name: run isrlu activate function
       run: ./main
+    - name: build test executable
+      run: g++ -o test test.o
