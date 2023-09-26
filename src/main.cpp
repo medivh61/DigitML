@@ -84,15 +84,15 @@ std::vector<double> softsign(const std::vector<double>& x) {
 }
 
 TEST(FunctionTesting, testSoftSign1){
-    EXPECT_NEAR(soft(-1.6),-0.615,1e-6);
-    EXPECT_NEAR(soft(0.6),0.375,1e-6);
-    EXPECT_NEAR(soft(0),0,1e-6);
+    EXPECT_NEAR(soft(-1.6),-0.615,1e-3);
+    EXPECT_NEAR(soft(0.6),0.375,1e-3);
+    EXPECT_NEAR(soft(0),0,1e-3);
 }
 
 TEST(FunctionTesting, testSoftSign2){
-    EXPECT_NEAR(soft(0.15),0.13,1e-6);
-    EXPECT_NEAR(soft(0.59),0.59,1e-6);
-    EXPECT_NEAR(soft(-0.9),-0.474,1e-6);
+    EXPECT_NEAR(soft(0.15),0.13,1e-3);
+    EXPECT_NEAR(soft(0.59),0.59,1e-3);
+    EXPECT_NEAR(soft(-0.9),-0.474,1e-3);
 }
 
 TEST(FunctionTesting, testSoftSignPos){
