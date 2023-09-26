@@ -77,10 +77,9 @@ TEST(FunctionTesting, test_isrlu_large) {
 
 #endif
 
+int main(int argc, char **argv) {
 
-int main() {
-
-    #ifdef TEST
+    #ifdef TESTS
         ::testing::InitGoogleTest(&argc, argv);
         return RUN_ALL_TESTS();
     #endif
