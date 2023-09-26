@@ -8,6 +8,7 @@
 
 #include "../lib/matrix.h"
 #include <cassert>
+#include <random> // добавленная строка
 #include "dataset.hpp"
 #include <cmath>
 
