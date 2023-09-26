@@ -25,5 +25,5 @@ jobs:
       run: ./main
     - name: make isrlu activate function
       run: make isrlu
-    - name: run isrli activate function
+    - name: run isrlu activate function
       run: ./main
