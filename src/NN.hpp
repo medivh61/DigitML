@@ -7,6 +7,7 @@
 #define OUTPUT_SIZE 10
 
 #include "../lib/matrix.h"
+#include <cassert>
 #include "dataset.hpp"
 #include <cmath>
 
