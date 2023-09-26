@@ -15,12 +15,16 @@ jobs:
     - uses: actions/checkout@v3
     - name: installation
       run: sudo apt install -y googletest libgtest-dev build-essential gcovr
-    - name: compill unit tests
+    - name: comp unit tests
       run: make test
     - name: run unit tests
       run: ./main
-    - name: make 
-      run: make all
-    - name: run 
+    - name: make activate function
+      run: make 
+    - name: run standart activate function
+      run: ./main
+    - name: make isrlu activate function
+      run: make isrlu
+    - name: run isrlu activate function
       run: ./main
 
