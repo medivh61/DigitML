@@ -43,7 +43,7 @@ void tests(int count){
 
 int main() {
    // tests(5);
-             Matrix<unsigned char> images_train(0, 0);
+    Matrix<unsigned char> images_train(0, 0);
     Matrix<unsigned char> labels_train(0, 0);
     load_dataset(images_train, labels_train, "data/train-images-idx3-ubyte", "data/train-labels-idx1-ubyte");
 
@@ -51,7 +51,9 @@ int main() {
     Matrix<unsigned char> labels_test(0, 0);
     load_dataset(images_test, labels_test, "data/t10k-images-idx3-ubyte", "data/t10k-labels-idx1-ubyte");
 
-     const unsigned int num_iterations = 5;
+    NeuralNetwork n;
+    
+    const unsigned int num_iterations = 5;
     n.train(num_iterations, images_train, labels_train);
 
     const double accuracy_train = calculate_accuracy(images_train, labels_train, n);
@@ -60,6 +62,6 @@ int main() {
     printf("Accuracy on training data: %f\n", accuracy_train);
     printf("Accuracy on test data: %f\n", accuracy_test);
 
-    NeuralNetwork n;
+   
     return 0;
 }
