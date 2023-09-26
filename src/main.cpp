@@ -72,48 +72,45 @@ void tests(int count){
 #ifdef TESTS
 #include "gtest/gtest.h"
 
-double max(double a, double b) {
-    if(a >= b)
-       return a;
-    else
-       return b;
+double soft(double a) {
+    return a / (1 + abs(a));
 }
 
-std::vector<double> ReLU(const std::vector<double>& x) {
+std::vector<double> softsign(const std::vector<double>& x) {
     std::vector<double> result(x.size());
     for (unsigned int i = 0; i < x.size(); i++)
-        result[i] = max(x[i], 0);
+        result[i] = soft(x[i]);
     return result;
 }
 
-TEST(FunctionTesting, testMax1){
-    EXPECT_NEAR(max(0.37, 0.29),0.37,1e-6);
-    EXPECT_NEAR(max(-0.52, -0.92),-0.52,1e-6);
-    EXPECT_NEAR(max(0, 0.83),0.83,1e-6);
+TEST(FunctionTesting, testSoftSign1){
+    EXPECT_NEAR(soft(-1.6),-0.615,1e-6);
+    EXPECT_NEAR(soft(0.6),0.375,1e-6);
+    EXPECT_NEAR(soft(0),0,1e-6);
 }
 
-TEST(FunctionTesting, testMax2){
-    EXPECT_NEAR(max(0.1, 0.0 * 0.1),0.1,1e-6);
-    EXPECT_NEAR(max(-0.1, 0.0 * (-0.1)),0.0,1e-6);
-    EXPECT_NEAR(max(0, 0.0 * 0),0.0,1e-6);
+TEST(FunctionTesting, testSoftSign2){
+    EXPECT_NEAR(soft(0.15),0.13,1e-6);
+    EXPECT_NEAR(soft(0.59),0.59,1e-6);
+    EXPECT_NEAR(soft(-0.9),-0.474,1e-6);
 }
 
-TEST(FunctionTesting, testReLUPos){
-    std::vector<double> x1 = {0.13, 0.23, 0.33, 0.43, 0.53};
-    std::vector<double> right_x1 = {0.13, 0.23, 0.33, 0.43, 0.53};
-    ASSERT_EQ(ReLU(x1),right_x1);
+TEST(FunctionTesting, testSoftSignPos){
+    std::vector<double> x1 = {0.56, 0.99, 1.8, 2.1, 0.53};
+    std::vector<double> right_x1 = {0.359, 0.497, 0.643, 0.677, 0.346};
+    ASSERT_EQ(softsign(x1),right_x1);
 }
 
-TEST(FunctionTesting, testReLUMix){
-    std::vector<double> x2 = {0.05, -0.45, -0.24, 0.01, -0.99};
-    std::vector<double> right_x2 = {0.05, 0.0, 0.0, 0.01, 0.0};
-    ASSERT_EQ(ReLU(x2),right_x2);
+TEST(FunctionTesting, testSoftSignMix){
+    std::vector<double> x2 = {0.5, -0.4, -0.33, 0.1, -0.92};
+    std::vector<double> right_x2 = {0.33, -0.286, -0.248, 0.09, -0.479};
+    ASSERT_EQ(softsign(x2),right_x2);
 }
 
-TEST(FunctionTesting, testReLUNeg){
+TEST(FunctionTesting, testSoftSignNeg){
     std::vector<double> x3 = {-0.75, -0.93, -0.38, -0.02, -0.63};
-    std::vector<double> right_x3 = {0.0, 0.0, 0.0, 0.0, 0.0};
-    ASSERT_EQ(ReLU(x3),right_x3);
+    std::vector<double> right_x3 = {-0.429, -0.481, -0.275, -0.0196, -0.387};
+    ASSERT_EQ(softsign(x3),right_x3);
 }
 #endif
 
@@ -123,23 +120,6 @@ int main(int argc, char **argv) {
         ::testing::InitGoogleTest(&argc, argv);
         return RUN_ALL_TESTS();
     #endif
-      Matrix<unsigned char> images_train(0, 0);
-    Matrix<unsigned char> labels_train(0, 0);
-    load_dataset(images_train, labels_train, "data/train-images-idx3-ubyte", "data/train-labels-idx1-ubyte");
-    Matrix<unsigned char> images_test(0, 0);
-    Matrix<unsigned char> labels_test(0, 0);
-    load_dataset(images_test, labels_test, "data/t10k-images-idx3-ubyte", "data/t10k-labels-idx1-ubyte");
-    
-    NeuralNetwork n;
-   
-    const unsigned int num_iterations = 5;
-    n.train(num_iterations, images_train, labels_train);
-   
-    const double accuracy_train = calculate_accuracy(images_train, labels_train, n);
-    const double accuracy_test = calculate_accuracy(images_test, labels_test, n);
-    
-    printf("Accuracy on training data: %f\n", accuracy_train);
-    printf("Accuracy on test data: %f\n", accuracy_test);
-   
+     
         return 0;
 }
