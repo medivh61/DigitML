@@ -35,107 +35,92 @@ const double calculate_accuracy(const Matrix<unsigned char>& images, const Matri
   return accuracy;
 }
 
-void tests(int count){
-    double sum_train = 0;
-    double sum_test = 0;
-    for(int i =0; i <= count; i++){
-        Matrix<unsigned char> images_train(0, 0);
-   
-        Matrix<unsigned char> labels_train(0, 0);
-   
-        load_dataset(images_train, labels_train, "data/train-images-idx3-ubyte", "data/train-labels-idx1-ubyte");
-
-   
-        Matrix<unsigned char> images_test(0, 0);
-        Matrix<unsigned char> labels_test(0, 0);
-        load_dataset(images_test, labels_test, "data/t10k-images-idx3-ubyte", "data/t10k-labels-idx1-ubyte");
-
-        NeuralNetwork n;
-
-        const unsigned int num_iterations = 5;
-        n.train(num_iterations, images_train, labels_train);
-
-        const double accuracy_train = calculate_accuracy(images_train, labels_train, n);
-        const double accuracy_test = calculate_accuracy(images_test, labels_test, n);
-        
-        sum_train += accuracy_train;
-        sum_test += accuracy_test;
-        
-        printf("Accuracy on training data: %f\n", accuracy_train);
-        printf("Accuracy on test data: %f\n", accuracy_test);
-    
-    };
-    printf(" ----------------------------------------\n Average accuracy of train data: %f\n", sum_train/count);
-    printf(" Average accuracy of test data: %f\n", sum_test/count);
-}
-
 #ifdef TESTS
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
-double soft(double a) {
-    return a / (1 + abs(a));
+NeuralNetwork n;
+
+TEST(FunctionTesting, test_isrlu_zero) {
+  std::vector<double> t1 = {0.0, 0.0, 0.0};
+  std::vector<double> t2 = {0.0, 0.0, 0.0};
+  double alpha =123.456; // Add this var in all tests
+  EXPECT_EQ(n.isrlu(t1, alpha), t2);
 }
 
-std::vector<double> softsign(const std::vector<double>& x) {
-    std::vector<double> result(x.size());
-    for (unsigned int i = 0; i < x.size(); i++)
-        result[i] = soft(x[i]);
-    return result;
+TEST(FunctionTesting, test_isrlu_positive) {
+  std::vector<double> t1 = {0.5, 1.0, 2.0};
+  std::vector<double> t2 = {0.5, 1.0, 2.0};
+  double alpha = 123.456;
+  EXPECT_EQ(n.isrlu(t1), t2);
 }
 
-TEST(FunctionTesting, testSoftSign1){
-    EXPECT_NEAR(soft(-1.6),-0.615,1e-2);
-    EXPECT_NEAR(soft(0.6),0.375,1e-2);
-    EXPECT_NEAR(soft(0),0,1e-2);
+TEST(FunctionTesting, test_isrlu_negative) {
+  std::vector<double> t1 = {-0.5, -1.0, -2.0};
+  std::vector<double> t2 = {-0.5 / (1.0 + 0.5), -1.0 / (1.0 + 1.0), -2.0 / (1.0 + 2.0)};
+  double alpha = 123.456;
+  EXPECT_EQ(n.isrlu(t1), t2);
 }
 
-TEST(FunctionTesting, testSoftSign2){
-    EXPECT_NEAR(soft(0.15),0.13,1e-2);
-    EXPECT_NEAR(soft(0.59),0.37106,1e-2);
-    EXPECT_NEAR(soft(-0.9),-0.474,1e-2);
+TEST(FunctionTesting, test_isrlu_mixed) {
+  std::vector<double> t1 = {1.5, -2.0, 0.0};
+  std::vector<double> t2 = {1.5, -2.0 / (1.0 + 2.0), 0.0};
+  double alpha = 123.456;
+  EXPECT_EQ(n.isrlu(t1), t2);
 }
 
-TEST(FunctionTesting, testSoftSignPos){
-    std::vector<double> x1 = {0.56, 0.99, 1.8, 2.1, 0.53};
-    std::vector<double> right_x1 = {0.358974, 0.497487, 0.642857, 0.677419, 0.346405};
-    //ASSERT_EQ(softsign(x1),right_x1);
-    
-    std::vector<double> result = softsign(x1);
-
-    for (unsigned int i = 0; i < result.size(); i++) {
-        ASSERT_NEAR(result[i], right_x1[i], 1e-3);
-    }
+TEST(FunctionTesting, test_isrlu_large) {
+  std::vector<double> t1 = {100.0, -50.0, 0.0};
+  std::vector<double> t2 = {100.0, -50.0 / (1.0 + 0.5), 0.0};
+  double alpha = 123.456;
+  EXPECT_EQ(n.isrlu(t1), t2);
 }
 
-TEST(FunctionTesting, testSoftSignMix){
-    std::vector<double> x2 = {0.5, -0.4, -0.33, 0.1, -0.92};
-    std::vector<double> right_x2 = {0.333333, -0.285714, -0.24812, 0.0909091, -0.479167};
-    //ASSERT_EQ(softsign(x2),right_x2);
-    std::vector<double> result = softsign(x2);
-
-    for (unsigned int i = 0; i < result.size(); i++) {
-        ASSERT_NEAR(result[i], right_x2[i], 1e-3);
-    }
-}
-
-TEST(FunctionTesting, testSoftSignNeg){
-    std::vector<double> x3 = {-0.75, -0.93, -0.38, -0.02, -0.63};
-    std::vector<double> right_x3 = {-0.428571, -0.481865, -0.275362, -0.0196078, -0.386503};
-    //ASSERT_EQ(softsign(x3),right_x3);
-    std::vector<double> result = softsign(x3);
-
-    for (unsigned int i = 0; i < result.size(); i++) {
-        ASSERT_NEAR(result[i], right_x3[i], 1e-3);
-    }
-}
 #endif
 
 int main(int argc, char **argv) {
-   tests(6);
-   #ifdef TESTS
+
+    #ifdef TESTS
         ::testing::InitGoogleTest(&argc, argv);
         return RUN_ALL_TESTS();
     #endif
-     
-        return 0;
+    
+    Matrix<unsigned char> images_train(0, 0);
+    Matrix<unsigned char> labels_train(0, 0);
+    load_dataset(images_train, labels_train, "data/train-images-idx3-ubyte", "data/train-labels-idx1-ubyte");
+
+    Matrix<unsigned char> images_test(0, 0);
+    Matrix<unsigned char> labels_test(0, 0);
+    load_dataset(images_test, labels_test, "data/t10k-images-idx3-ubyte", "data/t10k-labels-idx1-ubyte");
+
+    NeuralNetwork n;
+
+    // Tests to see that data was read in properly
+    /*for (int i = 0; i < 10; ++i) {
+        Example e;
+        for (int j = 0; j < 28*28; ++j) {
+            e.data[j] = images_train[i][j];
+        }
+        e.label = labels_train[i][0];
+        debug(e);
+        printf("Guess: %d\n", n.compute(e));
+    }
+    for (int i = 0; i < 10; ++i) {
+        Example e;
+        for (int j = 0; j < 28*28; ++j) {
+            e.data[j] = images_test[i][j];
+        }
+        e.label = labels_test[i][0];
+        debug(e);
+        printf("Guess: %d\n", n.compute(e));
+    }*/
+    const unsigned int num_iterations = 5;
+    n.train(num_iterations, images_train, labels_train);
+
+    const double accuracy_train = calculate_accuracy(images_train, labels_train, n);
+    const double accuracy_test = calculate_accuracy(images_test, labels_test, n);
+
+    printf("Accuracy on training data: %f\n", accuracy_train);
+    printf("Accuracy on test data: %f\n", accuracy_test);
+
+    return 0;
 }
