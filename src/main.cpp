@@ -52,7 +52,25 @@ int main() {
     load_dataset(images_test, labels_test, "data/t10k-images-idx3-ubyte", "data/t10k-labels-idx1-ubyte");
 
     NeuralNetwork n;
-    
+
+      for (int i = 0; i < 10; ++i) {
+        Example e;
+        for (int j = 0; j < 28*28; ++j) {
+            e.data[j] = images_train[i][j];
+        }
+        e.label = labels_train[i][0];
+        debug(e);
+        printf("Guess: %d\n", n.compute(e));
+    }
+    for (int i = 0; i < 10; ++i) {
+        Example e;
+        for (int j = 0; j < 28*28; ++j) {
+            e.data[j] = images_test[i][j];
+        }
+        e.label = labels_test[i][0];
+        debug(e);
+        printf("Guess: %d\n", n.compute(e));
+    }
     const unsigned int num_iterations = 5;
     n.train(num_iterations, images_train, labels_train);
 
