@@ -43,33 +43,40 @@ NeuralNetwork n;
 TEST(FunctionTesting, test_isrlu_zero) {
   std::vector<double> t1 = {0.0, 0.0, 0.0};
   std::vector<double> t2 = {0.0, 0.0, 0.0};
-  EXPECT_EQ(n.isrlu(t1), t2);
+  double alpha =123.456; // Add this var in all tests
+  EXPECT_EQ(n.isrlu(t1, alpha), t2);
 }
 
 TEST(FunctionTesting, test_isrlu_positive) {
   std::vector<double> t1 = {0.5, 1.0, 2.0};
   std::vector<double> t2 = {0.5, 1.0, 2.0};
+  double alpha = 123.456;
   EXPECT_EQ(n.isrlu(t1), t2);
 }
 
 TEST(FunctionTesting, test_isrlu_negative) {
   std::vector<double> t1 = {-0.5, -1.0, -2.0};
   std::vector<double> t2 = {-0.5 / (1.0 + 0.5), -1.0 / (1.0 + 1.0), -2.0 / (1.0 + 2.0)};
+  double alpha = 123.456;
   EXPECT_EQ(n.isrlu(t1), t2);
 }
 
 TEST(FunctionTesting, test_isrlu_mixed) {
   std::vector<double> t1 = {1.5, -2.0, 0.0};
   std::vector<double> t2 = {1.5, -2.0 / (1.0 + 2.0), 0.0};
+  double alpha = 123.456;
   EXPECT_EQ(n.isrlu(t1), t2);
 }
 
 TEST(FunctionTesting, test_isrlu_large) {
   std::vector<double> t1 = {100.0, -50.0, 0.0};
   std::vector<double> t2 = {100.0, -50.0 / (1.0 + 0.5), 0.0};
+  double alpha = 123.456;
   EXPECT_EQ(n.isrlu(t1), t2);
 }
+
 #endif
+
 
 int main() {
 
