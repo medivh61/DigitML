@@ -35,10 +35,51 @@ const double calculate_accuracy(const Matrix<unsigned char>& images, const Matri
   return accuracy;
 }
 
+void tests(int count){
+    double sum_train = 0;
+    double sum_test = 0;
+    for(int i =0; i <= count; i++){
+        Matrix<unsigned char> images_train(0, 0);
+   
+        Matrix<unsigned char> labels_train(0, 0);
+   
+        load_dataset(images_train, labels_train, "data/train-images-idx3-ubyte", "data/train-labels-idx1-ubyte");
+
+   
+        Matrix<unsigned char> images_test(0, 0);
+        Matrix<unsigned char> labels_test(0, 0);
+        load_dataset(images_test, labels_test, "data/t10k-images-idx3-ubyte", "data/t10k-labels-idx1-ubyte");
+
+        NeuralNetwork n;
+
+        const unsigned int num_iterations = 5;
+        n.train(num_iterations, images_train, labels_train);
+
+        const double accuracy_train = calculate_accuracy(images_train, labels_train, n);
+        const double accuracy_test = calculate_accuracy(images_test, labels_test, n);
+        
+        sum_train += accuracy_train;
+        sum_test += accuracy_test;
+        
+        printf("Accuracy on training data: %f\n", accuracy_train);
+        printf("Accuracy on test data: %f\n", accuracy_test);
+    
+    };
+    printf(" ----------------------------------------\n Average accuracy of train data: %f\n", sum_train/count);
+    printf(" Average accuracy of test data: %f\n", sum_test/count);
+}
+
 #ifdef TESTS
 #include <gtest/gtest.h>
 
 NeuralNetwork n;
+
+std::vector<double> isrlu(const std::vector<double>& x) {
+    std::vector<double> result(x.size());
+    for (unsigned int i = 0; i < x.size(); i++)
+        result[i] = x[i] >= 0 ? x[i] : x[i] / sqrt(1 + alpha * pow(x[i], 2));
+    return result;
+}
 
 TEST(FunctionTesting, test_isrlu_zero) {
   std::vector<double> t1 = {0.0, 0.0, 0.0};
@@ -78,49 +119,11 @@ TEST(FunctionTesting, test_isrlu_large) {
 #endif
 
 int main(int argc, char **argv) {
-
-    #ifdef TESTS
+   tests(6);
+   #ifdef TESTS
         ::testing::InitGoogleTest(&argc, argv);
         return RUN_ALL_TESTS();
     #endif
-    
-    Matrix<unsigned char> images_train(0, 0);
-    Matrix<unsigned char> labels_train(0, 0);
-    load_dataset(images_train, labels_train, "data/train-images-idx3-ubyte", "data/train-labels-idx1-ubyte");
-
-    Matrix<unsigned char> images_test(0, 0);
-    Matrix<unsigned char> labels_test(0, 0);
-    load_dataset(images_test, labels_test, "data/t10k-images-idx3-ubyte", "data/t10k-labels-idx1-ubyte");
-
-    NeuralNetwork n;
-
-    // Tests to see that data was read in properly
-    /*for (int i = 0; i < 10; ++i) {
-        Example e;
-        for (int j = 0; j < 28*28; ++j) {
-            e.data[j] = images_train[i][j];
-        }
-        e.label = labels_train[i][0];
-        debug(e);
-        printf("Guess: %d\n", n.compute(e));
-    }
-    for (int i = 0; i < 10; ++i) {
-        Example e;
-        for (int j = 0; j < 28*28; ++j) {
-            e.data[j] = images_test[i][j];
-        }
-        e.label = labels_test[i][0];
-        debug(e);
-        printf("Guess: %d\n", n.compute(e));
-    }*/
-    const unsigned int num_iterations = 5;
-    n.train(num_iterations, images_train, labels_train);
-
-    const double accuracy_train = calculate_accuracy(images_train, labels_train, n);
-    const double accuracy_test = calculate_accuracy(images_test, labels_test, n);
-
-    printf("Accuracy on training data: %f\n", accuracy_train);
-    printf("Accuracy on test data: %f\n", accuracy_test);
-
-    return 0;
+     
+        return 0;
 }
