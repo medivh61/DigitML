@@ -7,7 +7,6 @@
 #define OUTPUT_SIZE 10
 
 #include "../lib/matrix.h"
-#include <cassert>
 #include "dataset.hpp"
 #include <cmath>
 
@@ -42,8 +41,6 @@ class NeuralNetwork {
                 Matrix<double>& gradient_2,
                 double& cost);
         unsigned int compute(const Example& e);
-
-	
 };
 
 #include "NN.cpp"
