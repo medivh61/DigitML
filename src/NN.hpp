@@ -8,7 +8,6 @@
 
 #include "../lib/matrix.h"
 #include <cassert>
-#include <random> // добавленная строка
 #include "dataset.hpp"
 #include <cmath>
 
@@ -44,7 +43,7 @@ class NeuralNetwork {
                 double& cost);
         unsigned int compute(const Example& e);
 
-	void test_isrlu_positive_input();
+	
 };
 
 #include "NN.cpp"
