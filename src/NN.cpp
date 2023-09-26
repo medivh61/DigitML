@@ -1,6 +1,7 @@
 
 #include <cstdlib>
 #include <random>
+#include <cassert>
 
 
 const double beta = 0.2;
@@ -14,6 +15,20 @@ std::vector<double> operator-(
     for (unsigned int i = 0; i < lhs.size(); i++)
         result[i] = lhs[i] - rhs[i];
     return result;
+}
+
+void NeuralNetwork::test_isrlu_positive_input() {
+    NeuralNetwork nn;
+    std::vector<double> input = {0.5, 1.0, 1.5};
+    double alpha = 0.1;
+    std::vector<double> expected_output = {0.494975, 1.0, 1.5};
+
+    std::vector<double> output = nn.isrlu(input, alpha);
+
+    // Проверяем, что выход функции соответствует ожидаемым значениям с точностью до 6 знаков после запятой
+    for (unsigned int i = 0; i < output.size(); i++) {
+        assert(std::abs(output[i] - expected_output[i]) < 1e-6);
+    }
 }
 
 NeuralNetwork::NeuralNetwork() {
