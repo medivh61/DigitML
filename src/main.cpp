@@ -35,7 +35,49 @@ const double calculate_accuracy(const Matrix<unsigned char>& images, const Matri
   return accuracy;
 }
 
+#ifdef TESTS
+#include <gtest/gtest.h>
+
+NeuralNetwork n;
+
+TEST(FunctionTesting, test_isrlu_zero) {
+  std::vector<double> t1 = {0.0, 0.0, 0.0};
+  std::vector<double> t2 = {0.0, 0.0, 0.0};
+  EXPECT_EQ(n.isrlu(t1), t2);
+}
+
+TEST(FunctionTesting, test_isrlu_positive) {
+  std::vector<double> t1 = {0.5, 1.0, 2.0};
+  std::vector<double> t2 = {0.5, 1.0, 2.0};
+  EXPECT_EQ(n.isrlu(t1), t2);
+}
+
+TEST(FunctionTesting, test_isrlu_negative) {
+  std::vector<double> t1 = {-0.5, -1.0, -2.0};
+  std::vector<double> t2 = {-0.5 / (1.0 + 0.5), -1.0 / (1.0 + 1.0), -2.0 / (1.0 + 2.0)};
+  EXPECT_EQ(n.isrlu(t1), t2);
+}
+
+TEST(FunctionTesting, test_isrlu_mixed) {
+  std::vector<double> t1 = {1.5, -2.0, 0.0};
+  std::vector<double> t2 = {1.5, -2.0 / (1.0 + 2.0), 0.0};
+  EXPECT_EQ(n.isrlu(t1), t2);
+}
+
+TEST(FunctionTesting, test_isrlu_large) {
+  std::vector<double> t1 = {100.0, -50.0, 0.0};
+  std::vector<double> t2 = {100.0, -50.0 / (1.0 + 0.5), 0.0};
+  EXPECT_EQ(n.isrlu(t1), t2);
+}
+#endif
+
 int main() {
+
+    #ifdef TEST
+        ::testing::InitGoogleTest(&argc, argv);
+        return RUN_ALL_TESTS();
+    #endif
+    
     Matrix<unsigned char> images_train(0, 0);
     Matrix<unsigned char> labels_train(0, 0);
     load_dataset(images_train, labels_train, "data/train-images-idx3-ubyte", "data/train-labels-idx1-ubyte");
