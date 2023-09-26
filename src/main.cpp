@@ -70,50 +70,62 @@ void tests(int count){
 }
 
 #ifdef TESTS
-#include <gtest/gtest.h>
+#include "gtest/gtest.h"
 
-NeuralNetwork n;
+double isrlu(double a, double alpha) {
+    return a > 0 ? a : a / sqrt(1 + alpha * a * a);
+}
 
-std::vector<double> isrlu(const std::vector<double>& x) {
+std::vector<double> isrlu(const std::vector<double>& x, double alpha) {
     std::vector<double> result(x.size());
     for (unsigned int i = 0; i < x.size(); i++)
-        result[i] = x[i] >= 0 ? x[i] : x[i] / sqrt(1 + alpha * pow(x[i], 2));
+        result[i] = isrlu(x[i], alpha);
     return result;
 }
 
-TEST(FunctionTesting, test_isrlu_zero) {
-  std::vector<double> t1 = {0.0, 0.0, 0.0};
-  std::vector<double> t2 = {0.0, 0.0, 0.0};
-  double alpha =123.456; // Add this var in all tests
-  EXPECT_EQ(n.isrlu(t1, alpha), t2);
+TEST(FunctionTesting, testIsrlu1) {
+    EXPECT_NEAR(isrlu(-2.5, 0.3), -0.521612, 1e-5);
+    EXPECT_NEAR(isrlu(1.8, 0.3), 1.8, 1e-5);
+    EXPECT_NEAR(isrlu(-0.7, 0.3), -0.443049, 1e-5);
 }
 
-TEST(FunctionTesting, test_isrlu_positive) {
-  std::vector<double> t1 = {0.5, 1.0, 2.0};
-  std::vector<double> t2 = {0.5, 1.0, 2.0};
-  double alpha = 123.456;
-  EXPECT_EQ(n.isrlu(t1), t2);
+TEST(FunctionTesting, testIsrlu2) {
+    EXPECT_NEAR(isrlu(0.2, 0.5), 0.2, 1e-5);
+    EXPECT_NEAR(isrlu(0, 0.5), 0, 1e-5);
+    EXPECT_NEAR(isrlu(-0.9, 0.5), -0.575646, 1e-5);
 }
 
-TEST(FunctionTesting, test_isrlu_negative) {
-  std::vector<double> t1 = {-0.5, -1.0, -2.0};
-  std::vector<double> t2 = {-0.5 / (1.0 + 0.5), -1.0 / (1.0 + 1.0), -2.0 / (1.0 + 2.0)};
-  double alpha = 123.456;
-  EXPECT_EQ(n.isrlu(t1), t2);
+TEST(FunctionTesting, testIsrluPos) {
+    std::vector<double> x1 = {0.56, 0.99, 1.8, 2.1, 0.53};
+    std::vector<double> right_x1 = {0.56, 0.99, 1.8, 2.1, 0.53};
+
+    std::vector<double> result = isrlu(x1, 0.7);
+
+    for (unsigned int i = 0; i < result.size(); i++) {
+        EXPECT_NEAR(result[i], right_x1[i], 1e-5);
+    }
 }
 
-TEST(FunctionTesting, test_isrlu_mixed) {
-  std::vector<double> t1 = {1.5, -2.0, 0.0};
-  std::vector<double> t2 = {1.5, -2.0 / (1.0 + 2.0), 0.0};
-  double alpha = 123.456;
-  EXPECT_EQ(n.isrlu(t1), t2);
+TEST(FunctionTesting, testIsrluMix) {
+    std::vector<double> x2 = {0.5, -0.4, -0.33, 0.1, -0.92};
+    std::vector<double> right_x2 = {0.5, -0.253568, -0.217129, 0.0866035, -0.730297};
+
+    std::vector<double> result = isrlu(x2, 0.4);
+
+    for (unsigned int i = 0; i < result.size(); i++) {
+        EXPECT_NEAR(result[i], right_x2[i], 1e-5);
+    }
 }
 
-TEST(FunctionTesting, test_isrlu_large) {
-  std::vector<double> t1 = {100.0, -50.0, 0.0};
-  std::vector<double> t2 = {100.0, -50.0 / (1.0 + 0.5), 0.0};
-  double alpha = 123.456;
-  EXPECT_EQ(n.isrlu(t1), t2);
+TEST(FunctionTesting, testIsrluNeg) {
+    std::vector<double> x3 = {-0.75, -0.93, -0.38, -0.02, -0.63};
+    std::vector<double> right_x3 = {-0.610124, -0.698148, -0.408248, -0.0200004, -0.541587};
+
+    std::vector<double> result = isrlu(x3, 0.5);
+
+    for (unsigned int i = 0; i < result.size(); i++) {
+        EXPECT_NEAR(result[i], right_x3[i], 1e-5);
+    }
 }
 
 #endif
