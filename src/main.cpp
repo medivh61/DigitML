@@ -117,7 +117,7 @@ TEST(FunctionTesting, testReLUNeg){
 }
 #endif
 
-int main() {
+int main(int argc, char **argv) {
    tests(6);
    #ifdef TESTS
         ::testing::InitGoogleTest(&argc, argv);
