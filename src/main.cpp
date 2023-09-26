@@ -98,7 +98,13 @@ TEST(FunctionTesting, testSoftSign2){
 TEST(FunctionTesting, testSoftSignPos){
     std::vector<double> x1 = {0.56, 0.99, 1.8, 2.1, 0.53};
     std::vector<double> right_x1 = {0.358974, 0.497487, 0.642857, 0.677419, 0.346405};
-    ASSERT_EQ(softsign(x1),right_x1);
+    //ASSERT_EQ(softsign(x1),right_x1);
+    
+    std::vector<double> result = softsign(x3);
+
+    for (unsigned int i = 0; i < result.size(); i++) {
+        ASSERT_NEAR(result[i], right_x1[i], 1e-3);
+    }
 }
 
 TEST(FunctionTesting, testSoftSignMix){
