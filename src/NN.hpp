@@ -41,6 +41,8 @@ class NeuralNetwork {
                 Matrix<double>& gradient_2,
                 double& cost);
         unsigned int compute(const Example& e);
+
+	void test_isrlu_positive_input();
 };
 
 #include "NN.cpp"
