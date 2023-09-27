@@ -9,7 +9,7 @@ standart:
 	g++ $(FLAGS) -Ofast $(SRC) -I include -o main
 
 isrlu:
-	g++ $(FLAGS) -DSOFTSIGN -Ofast $(SRC) -I include -o main
+	g++ $(FLAGS) -DISRLU -Ofast $(SRC) -I include -o main
 
 test: 
 	g++ $(FLAGS) -DTESTS -Ofast $(SRC) -I include -o main -lgtest
