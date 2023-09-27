@@ -5,16 +5,16 @@
 FLAGS = $(WARNINGS) -std=c++11
 
 SRC = src/main.cpp
-isrlu:
+standart:
 	g++ $(FLAGS) -Ofast $(SRC) -I include -o main
 
-SOFTSIGN:
+isrlu:
 	g++ $(FLAGS) -DSOFTSIGN -Ofast $(SRC) -I include -o main
 
 test: 
 	g++ $(FLAGS) -DTESTS -Ofast $(SRC) -I include -o main -lgtest
 
-all: isrlu
+all: 
 	standart
 
 debug:
