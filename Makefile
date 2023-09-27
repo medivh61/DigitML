@@ -8,8 +8,8 @@ SRC = src/main.cpp
 standart:
 	g++ $(FLAGS) -Ofast $(SRC) -I include -o main
 
-isrlu:
-	g++ $(FLAGS) -DISRLU -Ofast $(SRC) -I include -o main
+ISRLUSIGN:
+	g++ $(FLAGS) -DISRLUSIGN -Ofast $(SRC) -I include -o main
 
 test: 
 	g++ $(FLAGS) -DTESTS -Ofast $(SRC) -I include -o main -lgtest
