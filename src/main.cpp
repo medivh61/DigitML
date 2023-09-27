@@ -107,7 +107,7 @@ TEST(FunctionTesting, testIsrluZero) {
 TEST(FunctionTesting, testSIsrluSignMix){
     double alpha = 0.5;
     std::vector<double> x = {0.333333, -0.285714, -0.24812, 0.0909091, -0.479167};
-    std::vector<double> result = isrlusign(x, apha);
+    std::vector<double> right_x2 = isrlusign(x, apha);
     for (unsigned int i = 0; i < result.size(); i++) {
         ASSERT_NEAR(result[i], right_x2[i], 1e-3);
     }
