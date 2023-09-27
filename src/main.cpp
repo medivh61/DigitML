@@ -113,7 +113,7 @@ TEST(FunctionTesting, testIsrluMixed) {
         EXPECT_NEAR(result[i], expected[i], 1e-2);
 }
 
-м#endif  // TESTS
+#endif  // TESTS
 
 int main(int argc, char **argv) {
    tests(6);
