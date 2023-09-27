@@ -1,4 +1,4 @@
-# DigitML
+# Грановский А.М. КС-40
 
 Training a feed-forward neural network with gradient descent and back-propogation to recognize handwritten digits. 
 
