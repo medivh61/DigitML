@@ -84,34 +84,30 @@ std::vector<double> isrlu(const std::vector<double>& x, double alpha) {
 }
 
 TEST(FunctionTesting, testIsrluNegative) {
-    double alpha =123.456;
-    EXPECT_NEAR(isrlu(-2.5, 0.3), -0.521612, 1e-2);
-    EXPECT_NEAR(isrlu(-0.7, 0.3), -0.443049, 1e-2);
-    EXPECT_NEAR(isrlu(-0.9, 0.5), -0.575646, 1e-2);
+    EXPECT_NEAR(isrlu(-2.5, 0.3), -0.521612, 1e-7);
+    EXPECT_NEAR(isrlu(-0.7, 0.3), -0.443049, 1e-7);
+    EXPECT_NEAR(isrlu(-0.9, 0.5), -0.575646, 1e-7);
 }
 
 TEST(FunctionTesting, testIsrluPositive) {
-    double alpha =123.456;
-    EXPECT_NEAR(isrlu(1.8, 0.3), 1.8, 1e-2);
-    EXPECT_NEAR(isrlu(0.2, 0.5), 0.2, 1e-2);
-    EXPECT_NEAR(isrlu(0.56, 0.7), 0.56, 1e-2);
+    EXPECT_NEAR(isrlu(1.8, 0.3), 1.8, 1e-6);
+    EXPECT_NEAR(isrlu(0.2, 0.5), 0.2, 1e-6);
+    EXPECT_NEAR(isrlu(0.56, 0.7), 0.56, 1e-6);
 }
 
 TEST(FunctionTesting, testIsrluZero) {
-    double alpha =123.456;
-    EXPECT_NEAR(isrlu(0, 0.5), 0, 1e-3);
-    EXPECT_NEAR(isrlu(0.1, 0.4), 0.1, 1e-3);
-    EXPECT_NEAR(isrlu(0.0, 0.7), 0.0, 1e-3);
+    EXPECT_NEAR(isrlu(0, 0.5), 0, 1e-8);
+    EXPECT_NEAR(isrlu(0.1, 0.4), 0.1, 1e-8);
+    EXPECT_NEAR(isrlu(0.0, 0.7), 0.0, 1e-8);
 }
 
 TEST(FunctionTesting, testIsrluMixed) {
-    double alpha =123.456;
     std::vector<double> x = {0.5, -0.4, -0.33, 0.1, -0.92};
     std::vector<double> result = isrlu(x, 0.4);
     std::vector<double> expected = {0.5, -0.253568, -0.217129, 0.0866035, -0.730297};
 
     for (unsigned int i = 0; i < result.size(); i++) {
-        EXPECT_NEAR(result[i], expected[i], 1e-2);
+        EXPECT_NEAR(result[i], expected[i], 1e-8);
     }
 }
 
