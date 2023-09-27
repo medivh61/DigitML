@@ -76,7 +76,7 @@ double isrlu(double a, double alpha = 1.0) {
     return a >= 0 ? a : a / sqrt(1 + alpha * a * a);
 }
 
-std::vector<double> isrlu(const std::vector<double>& x, double alpha = 1.0) {
+std::vector<double> isrlusign(const std::vector<double>& x, double alpha = 1.0) {
     std::vector<double> result(x.size());
     for (unsigned int i = 0; i < x.size(); i++)
         result[i] = isrlu(x[i], alpha);
@@ -107,7 +107,7 @@ TEST(FunctionTesting, testIsrluZero) {
 TEST(FunctionTesting, testIsrluMixed) {
     double alpha = 0.5;
     std::vector<double> x = {0.5, -0.4, -0.33, 0.1, -0.92};
-    std::vector<double> result = isrlu(x, alpha);
+    std::vector<double> result = isrlusign(x, alpha);
     std::vector<double> expected = {0.5, -0.253568, -0.205501, 0.1, -0.393458};
     for (unsigned int i = 0; i < result.size(); i++)
         EXPECT_NEAR(result[i], expected[i], 1e-9);
