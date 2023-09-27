@@ -23,7 +23,7 @@ jobs:
       run: make
     - name: run standart activate function
       run: ./main
-    - name: make isrlu activate function
-      run: make isrlu
-    - name: run isrlu activate function
+    - name: make ISRLUSIGN activate function
+      run: make ISRLUSIGN
+    - name: run ISRLUSIGN activate function
       run: ./main
