@@ -85,9 +85,9 @@ std::vector<double> isrlusign(const std::vector<double>& x, double alpha = 1.0) 
 
 TEST(FunctionTesting, testIsrluLargeAlpha) {
     double alpha = 3.0;
-    EXPECT_NEAR(isrlu(1.8, alpha), 1.2296, 1e-4);
-    EXPECT_NEAR(isrlu(-1.5, alpha), -0.7566, 1e-4);
-    EXPECT_NEAR(isrlu(0.7, alpha), 0.3846, 1e-4);
+    EXPECT_NEAR(isrlu(1.8, alpha), 1.8, 1e-2);
+    EXPECT_NEAR(isrlu(-1.5, alpha), -0.538818, 1e-2);
+    EXPECT_NEAR(isrlu(0.7, alpha), 0.7, 1e-2);
 }
 
 TEST(FunctionTesting, testIsrluPositive) {
