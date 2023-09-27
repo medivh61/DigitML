@@ -15,7 +15,7 @@ test:
 	g++ $(FLAGS) -DTESTS -Ofast $(SRC) -I include -o main -lgtest
 
 all: 
-	standart isrlu test debug
+	standart
 
 debug:
 	g++ $(FLAGS) -DDEBUG $(SRC) -o main
