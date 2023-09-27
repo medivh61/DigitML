@@ -73,7 +73,7 @@ void tests(int count){
 #include "gtest/gtest.h"
 
 double isrlu(double a, double alpha) {
-    return a > 0 ? a : a / sqrt(1 + alpha * a * a);
+    return a >= 0 ? a : a / sqrt(1 + alpha * a * a);
 }
 
 std::vector<double> isrlu(const std::vector<double>& x, double alpha) {
